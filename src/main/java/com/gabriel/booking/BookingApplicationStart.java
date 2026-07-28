@@ -1,21 +1,15 @@
+/// Created By: Gabriel de Sousa Ferreira
+
 package com.gabriel.booking;
 
-import com.gabriel.booking.config.ConnectionFactory;
+import com.gabriel.booking.menu.BookingMenu;
 
-import java.sql.Connection;
-
-/**
- * Hello world!
- *
- */
 public class BookingApplicationStart
 {
     public static void main( String[] args )
     {
-        try (Connection connection = ConnectionFactory.getConnection()) {
-            System.out.println("Conectado ao PostgreSQL!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        BookingMenu bookingMenu = new BookingMenu();
+
+        bookingMenu.HotelOptions();
     }
 }
