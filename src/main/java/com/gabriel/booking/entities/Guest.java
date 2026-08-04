@@ -81,12 +81,12 @@ public class Guest {
     @Override
     public String toString() {
         return "=== Guest ===" +
-                "\nNome: " + fullName +
+                "\nNome: '" + fullName +
                 "\nCPF: " + cpf  +
                 "\nData de nascimento: " + birthDate +
-                "\nE-mail: " + email +
-                "\nTelefone: " + phone  +
-                "\nCriado em: " + createdAt +
+                "\nE-mail='" + email +
+                "\nTelefone='" + phone  +
+                "\nCriado em : " + createdAt +
                 "\nEstá ativo? " + isActive;
     }
 }

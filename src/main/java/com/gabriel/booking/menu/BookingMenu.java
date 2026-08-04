@@ -5,7 +5,6 @@ import java.util.*;
 public class BookingMenu {
     public void HotelOptions(){
         Scanner scanner = new Scanner(System.in);
-        GuestMenu guestMenu = new GuestMenu();
         int option;
 
         do{
@@ -26,7 +25,7 @@ public class BookingMenu {
 
             switch (option){
                 case 1:
-                    guestMenu.CreateGuestMenu();
+
                     break;
                 case 2:
 
