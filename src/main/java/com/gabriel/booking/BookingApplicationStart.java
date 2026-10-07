@@ -2,14 +2,14 @@
 
 package com.gabriel.booking;
 
-import com.gabriel.booking.menu.BookingMenu;
+import com.gabriel.booking.service.HotelService;
 
 public class BookingApplicationStart
 {
     public static void main( String[] args )
     {
-        BookingMenu bookingMenu = new BookingMenu();
+        HotelService hotelMenu = new HotelService();
 
-        bookingMenu.HotelOptions();
+        hotelMenu.hotelServiceOtions();
     }
 }

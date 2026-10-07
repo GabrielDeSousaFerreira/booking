@@ -1,19 +1,17 @@
 package com.gabriel.booking.menu;
 
 import com.gabriel.booking.entities.Guest;
-import com.gabriel.booking.util.DateUtil;
 import com.gabriel.booking.util.ImputReader;
-import com.gabriel.booking.validation.ValidationCpf;
 
+import java.time.LocalDate;
 import java.util.Scanner;
-import java.time.*;
 
 public class GuestMenu {
     private static final String HEADER = "====================" +
-            "\n=    Guest Menu    =" +
+            "\n=== New Guest Menu =" +
             "\n====================";
 
-    public void CreateGuestMenu(){
+    public void createNewGuest(){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(HEADER + "\n");
