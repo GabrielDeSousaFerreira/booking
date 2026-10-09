@@ -1,48 +1,22 @@
 package com.gabriel.booking.service;
 
-import com.gabriel.booking.menu.GuestMenu;
+import com.gabriel.booking.entities.Guest;
+import com.gabriel.booking.repository.GuestRepository;
 
-import java.util.Scanner;
+import java.sql.SQLException;
 
 public class GuestService {
-    private static final String HEADER = "=====================" +
-                                        "\n=== Guest Service ===" +
-                                        "\n=====================";
+     private final GuestRepository guestRepository;
 
-    public void guestServiceMenu(){
-        Scanner scanner = new Scanner(System.in);
-        GuestMenu guestMenu = new GuestMenu();
-        HotelService hotelService = new HotelService();
-        int option;
+     public GuestService(){
+         this.guestRepository = new GuestRepository();
+     }
 
-        do{
-            System.out.println("\n" + HEADER);
-            System.out.println("1- Novo cadastro");
-            System.out.println("2- Encontrar cliente");
-            System.out.println("3- Listar clientes");
-            System.out.println("4- Validar CPF existente");
-            System.out.println("0- voltar ao menu anterior");
-            option = scanner.nextInt();
+     public Guest createGuest(Guest guest) throws SQLException{
+         if (guest == null){
+             throw new IllegalArgumentException("Os dados do hóspede não podem ser vazios!");
+         }
 
-            switch (option){
-                case 1:
-                    guestMenu.createNewGuest();
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-                case 0:
-                    hotelService.hotelServiceOtions();
-                    break;
-                default:
-                    System.out.println("Opção invalida!");
-            }
-        } while (option != 0);
-    }
+         return guestRepository.save(guest);
+     }
 }

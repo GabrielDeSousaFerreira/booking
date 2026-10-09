@@ -1,11 +1,13 @@
 package com.gabriel.booking.service;
 
+import com.gabriel.booking.menu.GuestMenu;
+
 import java.util.*;
 
 public class HotelService {
     public void hotelServiceOtions(){
         Scanner scanner = new Scanner(System.in);
-        GuestService guestService = new GuestService();
+        GuestMenu guestMenu = new GuestMenu();
         int option;
 
         do{
@@ -25,7 +27,7 @@ public class HotelService {
 
             switch (option){
                 case 1:
-                    guestService.guestServiceMenu();
+                    guestMenu.createNewGuest();
                     break;
                 case 2:
 
