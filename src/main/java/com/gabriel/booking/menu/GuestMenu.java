@@ -1,11 +1,5 @@
 package com.gabriel.booking.menu;
 
-import com.gabriel.booking.entities.Guest;
-import com.gabriel.booking.service.GuestService;
-import com.gabriel.booking.util.ImputReader;
-
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class GuestMenu {
@@ -13,46 +7,40 @@ public class GuestMenu {
                                         "\n=== Guest Menu ===" +
                                         "\n==================";
 
-    private final GuestService guestService = new GuestService();
-
-    public void createNewGuest(){
+    public void guestMenu(){
         Scanner scanner = new Scanner(System.in);
+        HotelMenu hotelMenu = new HotelMenu();
+        CreateNewGuestMenu createNewGuestMenu = new CreateNewGuestMenu();
+        int option;
 
-        System.out.println(HEADER + "\n");
-        System.out.println("Digite os dados do cliente:");
-        System.out.print("Nome: ");
-        String fullName = scanner.nextLine();
-        System.out.print("CPF: ");
-        String cpf = ImputReader.readCpf(scanner);
-        System.out.print("Ano de nascimento: ");
-        LocalDate birthDate = ImputReader.readBirthDate(scanner);
-        System.out.print("E-mail: ");
-        String email = scanner.nextLine();
-        System.out.print("Telefone: ");
-        String phone = scanner.nextLine();
+        do{
+            System.out.println(HEADER);
+            System.out.println("1- Novo cadastro");
+            System.out.println("2- Encontrar cliente");
+            System.out.println("3- Listar clientes");
+            System.out.println("4- Validar CPF existente");
+            System.out.println("0- voltar ao menu anterior");
+            option = scanner.nextInt();
 
-        Guest guest = new Guest(fullName, cpf, birthDate, email, phone);
+            switch (option){
+                case 1:
+                    createNewGuestMenu.createNewGuest();
+                    break;
+                case 2:
 
-        try{
-            guestService.createGuest(guest);
+                    break;
+                case 3:
 
-            System.out.println("\nHóspede cadastrado com sucesso!");
-            System.out.println("ID gerado pelo banco: " + guest.getId());
+                    break;
+                case 4:
 
-            System.out.println("Deseja ver os dados cadastrados? S/N");
-            char st = scanner.nextLine().trim().toUpperCase().charAt(0);
-
-            if (st == 'S'){
-                System.out.println(guest);
+                    break;
+                case 0:
+                    hotelMenu.hotelMenuOptions();
+                    break;
+                default:
+                    System.out.println("Opção invalida!");
             }
-        } catch (SQLException e){
-            System.out.println("Erro ao salvar o hóspede no banco de dados.");
-
-            if("23505".equals(e.getSQLState())){
-                System.err.println("O CPF informado já existe!");
-            } else{
-                System.err.println("Detalhes: " + e.getMessage());
-            }
-        }
+        } while (option != 0);
     }
 }
