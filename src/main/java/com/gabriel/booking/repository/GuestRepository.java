@@ -4,6 +4,8 @@ import com.gabriel.booking.config.ConnectionFactory;
 import com.gabriel.booking.entities.Guest;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuestRepository {
     public Guest save(Guest guest) throws SQLException {
@@ -42,4 +44,97 @@ public class GuestRepository {
 
         return guest;
     }
+
+    public Guest findGuestByCpf(String cpf) throws SQLException{
+        String sql = """
+                    SELECT cpf, full_name
+                    FROM guest
+                    WHERE cpf = ?
+                """;
+
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, cpf);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Guest guest = new Guest();
+
+                    guest.setCpf(resultSet.getString("cpf"));
+                    guest.setFullName(resultSet.getString("full_name"));
+
+                    return guest;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public List<Guest> listAllGuests() throws SQLException {
+        String sql = """
+                    SELECT cpf, full_name
+                    FROM guest
+                    ORDER BY full_name ASC
+                """;
+        List<Guest> list = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()){
+
+            while (resultSet.next()){
+                String fullName = resultSet.getString("full_name");
+                String cpf = resultSet.getString("cpf");
+
+                Guest guest = new Guest(fullName, cpf);
+                list.add(guest);
+            }
+        } catch (SQLException e){
+            System.err.println("Erro ao listar os hóspedes!");
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public boolean existsByCpf(String cpf) throws SQLException{
+        String sql = "SELECT 1 FROM guest WHERE cpf = ?";
+
+        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, cpf);
+
+            try (ResultSet resultSet = statement.executeQuery()){
+                return resultSet.next();
+            }
+        }
+    }
+
+    public boolean existsByEmail(String email) throws SQLException {
+        String sql = "SELECT 1 FROM guest WHERE LOWER(email) = LOWER(?)";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, email.trim());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
+    public boolean existsByPhone(String phone) throws SQLException {
+        String sql = "SELECT 1 FROM guest WHERE phone = ?";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, phone);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
 }

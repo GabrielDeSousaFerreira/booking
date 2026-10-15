@@ -14,6 +14,8 @@ public class ValidationCpf {
             throw new InvalidCpfException("CPF invalido!");
         }
 
+
+
         return cpf;
     }
 }

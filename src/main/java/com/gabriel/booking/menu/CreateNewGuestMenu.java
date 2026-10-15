@@ -1,6 +1,10 @@
+
 package com.gabriel.booking.menu;
 
 import com.gabriel.booking.entities.Guest;
+import com.gabriel.booking.exceptions.InvalidCpfException;
+import com.gabriel.booking.exceptions.InvalidEmailException;
+import com.gabriel.booking.exceptions.InvalidPhoneException;
 import com.gabriel.booking.service.GuestService;
 import com.gabriel.booking.util.ImputReader;
 
@@ -9,49 +13,62 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class CreateNewGuestMenu {
+
     private static final String HEADER = "==================" +
                                         "\n=== Guest Menu ===" +
                                         "\n==================";
 
     private final GuestService guestService = new GuestService();
 
-    public void createNewGuest(){
+    public void createNewGuest() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(HEADER);
-        System.out.println("Digite os dados do cliente:");
-        System.out.print("Nome: ");
-        String fullName = ImputReader.readName(scanner);
-        System.out.print("CPF: ");
-        String cpf = ImputReader.readCpf(scanner);
-        System.out.print("Ano de nascimento: ");
-        LocalDate birthDate = ImputReader.readBirthDate(scanner);
-        System.out.print("E-mail: ");
-        String email = ImputReader.readRequiredText(scanner, "E-mail");
-        System.out.print("Telefone: ");
-        String phone = ImputReader.readRequiredText(scanner, "Telefone");
+        while (true) {
+            System.out.println(HEADER);
+            System.out.println("Digite os dados do cliente:");
 
-        Guest guest = new Guest(fullName, cpf, birthDate, email, phone);
+            try {
+                System.out.print("Nome: ");
+                String fullName = ImputReader.readName(scanner);
 
-        try{
-            guestService.createGuest(guest);
+                System.out.print("CPF: ");
+                String cpf = ImputReader.readCpf(scanner);
 
-            System.out.println("\nHóspede cadastrado com sucesso!");
-            System.out.println("ID gerado pelo banco: " + guest.getId());
+                System.out.print("Ano de nascimento: ");
+                LocalDate birthDate = ImputReader.readBirthDate(scanner);
 
-            System.out.println("Deseja ver os dados cadastrados? S/N");
-            char st = scanner.nextLine().trim().toUpperCase().charAt(0);
+                System.out.print("E-mail: ");
+                String email = ImputReader.readRequiredText(scanner, "E-mail");
 
-            if (st == 'S'){
-                System.out.println(guest);
-            }
-        } catch (SQLException e){
-            System.out.println("Erro ao salvar o hóspede no banco de dados.");
+                System.out.print("Telefone: ");
+                String phone = ImputReader.readRequiredText(scanner, "Telefone");
 
-            if("23505".equals(e.getSQLState())){
-                System.err.println("O CPF informado já existe!");
-            } else{
-                System.err.println("Detalhes: " + e.getMessage());
+                Guest guest = new Guest(
+                        fullName, cpf, birthDate, email, phone
+                );
+
+                guestService.createGuest(guest);
+
+                System.out.println("\nHóspede cadastrado com sucesso!");
+                System.out.println("ID gerado pelo banco: " + guest.getId());
+
+                System.out.println("Deseja ver os dados cadastrados? S/N");
+                String option = scanner.nextLine().trim();
+
+                if (option.equalsIgnoreCase("S")) {
+                    System.out.println(guest);
+                }
+
+                break;
+            } catch (InvalidCpfException | InvalidPhoneException | InvalidEmailException e) {
+                System.out.println("\nErro " + e.getMessage());
+                System.out.println("Por favor, tente cadastrar novamente.\n");
+
+            } catch (SQLException e) {
+                System.err.println("\nErro ao acessar o banco de dados.");
+                System.err.println("Detalhes técnicos: " + e.getMessage());
+
+                break;
             }
         }
     }

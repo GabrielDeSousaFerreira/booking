@@ -1,5 +1,6 @@
 package com.gabriel.booking.menu;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class GuestMenu {
@@ -7,10 +8,12 @@ public class GuestMenu {
                                         "\n=== Guest Menu ===" +
                                         "\n==================";
 
-    public void guestMenu(){
+    public void guestMenu() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         HotelMenu hotelMenu = new HotelMenu();
         CreateNewGuestMenu createNewGuestMenu = new CreateNewGuestMenu();
+        FindGuestByCpf findGuestByCpf = new FindGuestByCpf();
+        ListGuestsMenu listGuestsMenu =  new ListGuestsMenu();
         int option;
 
         do{
@@ -27,10 +30,10 @@ public class GuestMenu {
                     createNewGuestMenu.createNewGuest();
                     break;
                 case 2:
-
+                    findGuestByCpf.findGuestByCpf();
                     break;
                 case 3:
-
+                    listGuestsMenu.listAllGuestsMenu();
                     break;
                 case 4:
 

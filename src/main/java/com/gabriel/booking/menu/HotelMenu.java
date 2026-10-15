@@ -1,9 +1,10 @@
 package com.gabriel.booking.menu;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class HotelMenu {
-    public void hotelMenuOptions(){
+    public void hotelMenuOptions() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         GuestMenu guestMenu = new GuestMenu();
         int option;

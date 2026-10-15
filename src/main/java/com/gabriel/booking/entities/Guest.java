@@ -15,6 +15,13 @@ public class Guest {
     private LocalDateTime createdAt;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+    public Guest() {}
+
+    public Guest(String fullName, String cpf) {
+        this.fullName = fullName;
+        this.cpf = cpf;
+    }
+
     public Guest(String fullName, String cpf, LocalDate birthDate, String email, String phone) {
         this.fullName = fullName;
         this.cpf = cpf;
